@@ -1,9 +1,11 @@
 /**
-*	@author 
-*	@date 
+*	@author
+*	@date
 *	@file LinkedList.hpp
 *	@brief Implementation file for templated LinkedList class
 */
+#include<iostream>
+using namespace std;
 
 template <typename T>
 LinkedList<T>::LinkedList() : m_front(nullptr), m_size(0)
@@ -12,7 +14,7 @@ LinkedList<T>::LinkedList() : m_front(nullptr), m_size(0)
 }
 
 template <typename T>
-LinkedList<T>::~LinkedList() 
+LinkedList<T>::~LinkedList()
 {
 	while(!isEmpty())
 	{
@@ -39,8 +41,8 @@ bool LinkedList<T>::search(T value) const
 	bool isFound = false;
 
 	while(temp != nullptr && !isFound) {
-	isFound = (temp->getValue() == value);
-	temp = temp -> getNext();
+		isFound = (temp->getValue() == value);
+		temp = temp->getNext();
 	}
 
 	return(isFound);
@@ -58,8 +60,8 @@ std::vector<T> LinkedList<T>::toVector() const
 		temp = temp->getNext();
 	}
 
-	return(vec);	
-	
+	return(vec);
+
 }
 
 template <typename T>
@@ -69,7 +71,7 @@ void LinkedList<T>::addBack(T value)
 
 	if(isEmpty())
 	{
-		m_front = new Node<T>(value);	
+		m_front = new Node<T>(value);
 	}
 	else
 	{
@@ -78,10 +80,8 @@ void LinkedList<T>::addBack(T value)
 		{
 			temp = temp->getNext();
 		}
-
-		temp->setNext( new Node<T>(value) );		
+		temp->setNext(new Node<T>(value));
 	}
-
 	m_size++;
 }
 
@@ -96,8 +96,8 @@ void LinkedList<T>::addFront(T value)
 
 template <typename T>
 bool LinkedList<T>::removeBack()
-{
-	Node<T>* lastNode = nullptr;
+{	
+	Node<T>* lastNode = m_front;
 	Node<T>* secondintoLast = nullptr;
 	bool isRemoved = false;
 
@@ -110,28 +110,24 @@ bool LinkedList<T>::removeBack()
 				lastNode = secondintoLast->getNext();
 			}
 		}
-		else {
-			lastNode = m_front;
-		}
 		delete lastNode;
-		lastNode = nullptr;
-		m_size --;
+		secondintoLast->setNext(nullptr);
+		m_size--;
 		isRemoved = true;
 	}
 
-	return(isRemoved);
-}	
+	return(isRemoved); 
+}
 
 template <typename T>
 bool LinkedList<T>::removeFront()
 {
-	Node<T>* temp = nullptr;
+	Node<T>* temp = m_front;
 	bool isRemoved = false;
 
 	if(!isEmpty())
 	{
-		temp = m_front;
-		m_front = temp->getNext();
+		m_front = m_front->getNext();
 		delete temp;
 		m_size--;
 		isRemoved = true;
